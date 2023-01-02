@@ -61,3 +61,14 @@ class TestCoriolisScraper(IsolatedAsyncioTestCase):
         # Generate materials
         await self.coriolisScraper.getMaterialsHTMLElement()
         self.assertIsNotNone(self.coriolisScraper.materialsHTMLElement)
+
+    async def test_scraper_can_extract_materials_as_text(self) -> None:
+        '''Check that after button click a textarea HTML element is
+        rendered and contains text.
+        '''
+        self.coriolisScraper = coriolis_scrape.CoriolisScraper(
+            'https://s.orbis.zone/lgzu')
+
+        # Check for materials text in innerHTML
+        await self.coriolisScraper.getMaterials()
+        self.assertIsNotNone(self.coriolisScraper.materialsAsText)
