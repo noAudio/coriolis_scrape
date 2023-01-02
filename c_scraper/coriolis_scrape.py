@@ -7,7 +7,9 @@ class CoriolisScraper:
     link: str  # link to coriolis build
     pageTitle: str
     materialsButton: element_handle.ElementHandle | None
+    materialsHTMLElement: element_handle.ElementHandle | None
     errorMsg: str
+    materials: str
 
     def __init__(self, link: str) -> None:
         self.link = link
@@ -39,3 +41,20 @@ class CoriolisScraper:
         except:
             self.materialsButton = None
             self.errorMsg = 'Materials button not found'
+
+    async def clickButton(self) -> None:
+        # Identify the button
+        await self.getButton()
+
+        # Click the button
+        await self.materialsButton.click()
+
+    async def getMaterialsHTMLElement(self) -> None:
+        await self.clickButton()
+
+        # Click button that generates materials
+        await self.clickButton()
+
+        # Identify element that holds the materials in text and assign
+        # to `materials`
+        self.materialsHTMLElement = await self.page.querySelector('#coriolis > div > div.modal-bg > div > div > textarea')
