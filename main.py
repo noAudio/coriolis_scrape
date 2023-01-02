@@ -6,9 +6,7 @@ async def scrapeItBoi():
     scraper: CoriolisScraper = CoriolisScraper(
         link='https://s.orbis.zone/lgzu')
 
-    await scraper.getButton()
-    print(scraper.materialsButton)
-
+    await scraper.getMaterials()
 loop = asyncio.get_event_loop()
 loop.run_until_complete(scrapeItBoi())
 loop.close()

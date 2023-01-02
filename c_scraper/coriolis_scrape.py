@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Dict
 from pyppeteer import launch, element_handle
 from time import sleep
 
@@ -9,7 +9,8 @@ class CoriolisScraper:
     materialsButton: element_handle.ElementHandle | None
     materialsHTMLElement: element_handle.ElementHandle | None
     errorMsg: str
-    materials: str
+    materialsAsText: str
+    materials: Dict[str, str]
 
     def __init__(self, link: str) -> None:
         self.link = link
@@ -50,11 +51,19 @@ class CoriolisScraper:
         await self.materialsButton.click()
 
     async def getMaterialsHTMLElement(self) -> None:
-        await self.clickButton()
-
         # Click button that generates materials
         await self.clickButton()
 
         # Identify element that holds the materials in text and assign
         # to `materials`
         self.materialsHTMLElement = await self.page.querySelector('#coriolis > div > div.modal-bg > div > div > textarea')
+
+    async def getMaterials(self) -> None:
+        await self.getMaterialsHTMLElement()
+
+        # Get the innerHTML text
+        if (self.materialsHTMLElement == None):
+            self.errorMsg = 'Unable to get rendered textarea that contains HTML element'
+            print(self.errorMsg)
+        self.materialsAsTextJsonValue = await self.materialsHTMLElement.getProperty('textContent')
+        self.materialsAsText = await self.materialsAsTextJsonValue.jsonValue()
