@@ -20,6 +20,9 @@ class CoriolisScraper:
         self.browser = await launch({"autoClose": False, "headless": False})
         self.page = await self.browser.newPage()
 
+    async def closeBrowser(self) -> None:
+        await self.browser.close()
+
     async def openPage(self) -> None:
         await self.setupBrowser()
 
