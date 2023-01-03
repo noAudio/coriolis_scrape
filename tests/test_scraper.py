@@ -26,6 +26,7 @@ class TestCoriolisScraper(IsolatedAsyncioTestCase):
         # call method that gets the web page
         await self.coriolisScraper.openPage()
         self.assertIn('EasyChief', self.coriolisScraper.pageTitle)
+        await self.close_browser()
 
     async def test_browser_can_opened_correct_page(self) -> None:
         await self.launch_browser()
@@ -34,6 +35,7 @@ class TestCoriolisScraper(IsolatedAsyncioTestCase):
         await self.page.goto(url='https://s.orbis.zone/lgzu')
         self.pageTitle: str = await self.page.title()
         self.assertIn('EasyChief', self.pageTitle)
+        await self.close_browser()
 
     async def test_materials_button_was_rendered(self) -> None:
         self.coriolisScraper = coriolis_scrape.CoriolisScraper(
@@ -43,6 +45,7 @@ class TestCoriolisScraper(IsolatedAsyncioTestCase):
         # materials in json
         await self.coriolisScraper.getButton()
         self.assertIsNotNone(self.coriolisScraper.materialsButton)
+        await self.close_browser()
 
     async def test_scraper_can_click_button(self) -> None:
         self.coriolisScraper = coriolis_scrape.CoriolisScraper(
@@ -50,6 +53,7 @@ class TestCoriolisScraper(IsolatedAsyncioTestCase):
 
         # Click the button
         await self.coriolisScraper.clickButton()
+        await self.close_browser()
 
     async def test_scraper_can_extract_materials_data(self) -> None:
         '''Check that the scraper can extract text that contains list
@@ -61,6 +65,7 @@ class TestCoriolisScraper(IsolatedAsyncioTestCase):
         # Generate materials
         await self.coriolisScraper.getMaterialsHTMLElement()
         self.assertIsNotNone(self.coriolisScraper.materialsHTMLElement)
+        await self.close_browser()
 
     async def test_scraper_can_extract_materials_as_text(self) -> None:
         '''Check that after button click a textarea HTML element is
@@ -72,3 +77,4 @@ class TestCoriolisScraper(IsolatedAsyncioTestCase):
         # Check for materials text in innerHTML
         await self.coriolisScraper.getMaterials()
         self.assertIsNotNone(self.coriolisScraper.materialsAsText)
+        await self.close_browser()
