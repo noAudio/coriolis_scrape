@@ -72,3 +72,13 @@ class TestCoriolisScraper(IsolatedAsyncioTestCase):
         # Check for materials text in innerHTML
         await self.coriolisScraper.getMaterials()
         self.assertIsNotNone(self.coriolisScraper.materialsAsText)
+
+    async def test_scraper_can_extract_experimental_mod_materials(self) -> None:
+        '''Check that the scraper can get the raw json for materials for
+        experimental mods.
+        '''
+        self.coriolisScraper = coriolis_scrape.CoriolisScraper(
+            'https://s.orbis.zone/lgzu')
+
+        await self.coriolisScraper.getRawExperimentalsMaterials()
+        self.assertIsNotNone(self.coriolisScraper.rawExperimentalsMaterials)
