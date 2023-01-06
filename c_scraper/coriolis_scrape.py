@@ -1,6 +1,5 @@
 from typing import Any, Dict, List
 from pyppeteer import launch, element_handle
-from time import sleep
 
 import json
 
@@ -21,7 +20,7 @@ class CoriolisScraper:
 
     async def setupBrowser(self) -> None:
         # TODO: Go back to headless mode
-        self.browser = await launch({"autoClose": False, "headless": False})
+        self.browser = await launch()
         self.page = await self.browser.newPage()
 
     async def closeBrowser(self) -> None:
