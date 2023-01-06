@@ -18,7 +18,7 @@ class TestListBuilder(IsolatedAsyncioTestCase):
         await self.listBuilder.generateData()
 
         self.assertTrue(
-            self.generalMaterialsTestData in self.listBuilder.generalMaterials)
+            self.generalMaterialsTestData in self.listBuilder.generalMaterialsRaw)
         self.assertTrue(self.listBuilder.specialMaterials ==
                         self.experimentalsTestData)
         self.assertTrue(self.listBuilder.shipName == 'Alliance Chieftain')
@@ -28,7 +28,8 @@ class TestListBuilder(IsolatedAsyncioTestCase):
         self.listBuilder: ListBuilder = ListBuilder(link=self.testLink)
 
         await self.listBuilder.generateData()
-        await self.listBuilder.convertDataToMaterialObjects()
+        self.listBuilder.convertAllDataToMaterialObjects()
 
         self.assertTrue(self.listBuilder.materialsData)
         self.assertEqual(type(self.listBuilder.materialsData[0]), Material)
+        self.assertEqual(len(self.listBuilder.materialsData), 80)
