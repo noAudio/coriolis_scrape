@@ -70,7 +70,7 @@ class CoriolisScraper:
         # Get the innerHTML text
         if (self.materialsHTMLElement == None):
             self.errorMsg = 'Unable to get rendered textarea that contains HTML element'
-            print(self.errorMsg)
+
         self.materialsAsTextJsonValue = await self.materialsHTMLElement.getProperty('textContent')
         self.materialsAsText = await self.materialsAsTextJsonValue.jsonValue()
 
