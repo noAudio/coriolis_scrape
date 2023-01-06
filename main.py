@@ -10,6 +10,8 @@ async def scrapeItBoi():
     await scraper.getRawExperimentalsMaterials()
     print(scraper.experimentalsMaterials)
     print(scraper.materialsAsText)
+    print(scraper.buildName)
+    print(scraper.shipName)
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(scrapeItBoi())
