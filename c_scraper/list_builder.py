@@ -17,6 +17,8 @@ class ListBuilder:
         self.link = link
 
     async def generateData(self) -> None:
+        '''Calls the Coriolis scraper and generates the raw data from the site's json response.
+        '''
         self.scraper = CoriolisScraper(link=self.link)
 
         await self.scraper.getMaterials()
@@ -24,6 +26,5 @@ class ListBuilder:
 
         self.generalMaterials = self.scraper.materialsAsText
         self.specialMaterials = self.scraper.experimentalsMaterials
-
         self.buildName = self.scraper.buildName
         self.shipName = self.scraper.shipName
