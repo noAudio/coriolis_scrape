@@ -2,6 +2,7 @@ from typing import List
 from unittest import IsolatedAsyncioTestCase
 
 from c_scraper.list_builder import ListBuilder
+from c_scraper.materials_model import Material
 
 
 class TestListBuilder(IsolatedAsyncioTestCase):
@@ -22,3 +23,12 @@ class TestListBuilder(IsolatedAsyncioTestCase):
                         self.experimentalsTestData)
         self.assertTrue(self.listBuilder.shipName == 'Alliance Chieftain')
         self.assertTrue(self.listBuilder.buildName == 'EasyChief')
+
+    async def test_data_is_converted_to_material_objects(self) -> None:
+        self.listBuilder: ListBuilder = ListBuilder(link=self.testLink)
+
+        await self.listBuilder.generateData()
+        await self.listBuilder.convertDataToMaterialObjects()
+
+        self.assertTrue(self.listBuilder.materialsData)
+        self.assertEqual(type(self.listBuilder.materialsData[0]), Material)
