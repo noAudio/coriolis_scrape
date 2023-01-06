@@ -10,6 +10,8 @@ class CoriolisScraper:
     materialsButton: element_handle.ElementHandle | None
     materialsHTMLElement: element_handle.ElementHandle | None
     errorMsg: str
+    shipName: str
+    buildName: str
     materialsAsText: str
     materials: Dict[str, str]
     experimentalsMaterials: List[str] = []
@@ -96,6 +98,11 @@ class CoriolisScraper:
                         if isinstance(item, dict):
                             self.getSpecials(item)
 
+    def getShipAndOrBuildName(self, jsonData: Dict[Any, Any]) -> None:
+        self.shipName = jsonData['ship']
+        if jsonData['name']:
+            self.buildName = jsonData['name']
+
     async def getRawExperimentalsMaterials(self) -> None:
         ''' Open page and then click the 'Export' button to get the json for the full build details.
         '''
@@ -118,6 +125,9 @@ class CoriolisScraper:
         self.jsonOutput = await self.rawData.jsonValue()
 
         self.rawExperimentalsMaterials = json.loads(self.jsonOutput)
+
+        # Evaluate json and get ship name and, if available, build name
+        self.getShipAndOrBuildName(self.rawExperimentalsMaterials)
 
         # Evaluate json and extract materials.
         self.getSpecials(self.rawExperimentalsMaterials['components'])
