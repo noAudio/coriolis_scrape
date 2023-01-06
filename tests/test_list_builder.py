@@ -11,4 +11,4 @@ class TestListBuilder(IsolatedAsyncioTestCase):
 
         await self.listBuilder.generateData()
 
-        self.assertIsNotNone(self.listBuilder.materialsData)
+        self.assertTrue(self.listBuilder.materialsData)
