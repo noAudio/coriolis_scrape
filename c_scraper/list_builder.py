@@ -1,4 +1,5 @@
-from typing import List
+import json
+from typing import Dict, List
 
 from c_scraper.materials_model import Material
 from c_scraper.coriolis_scrape import CoriolisScraper
@@ -11,7 +12,7 @@ class ListBuilder:
     generalMaterials: List[str]
     specialMaterials: List[str]
     shipName: str
-    buildName: str
+    buildName: str | None
     completeMaterialsData: str  # Hold list of materials as json
 
     def __init__(self, link: str) -> None:
@@ -50,7 +51,6 @@ class ListBuilder:
             item = item.split(': ')
             self.newMaterial: Material = Material(
                 name=item[0], amount=int(item[1]))
-            print(self.newMaterial)
             self.currentAmount: int
             self.duplicateIndex: int = -1
             # Check if the material is already added and if present then
@@ -79,3 +79,32 @@ class ListBuilder:
         self.cleanData()
         self.convertData(data=self.generalMaterials)
         self.convertData(data=self.specialMaterials)
+
+    def toJson(self) -> str:
+        # TODO: Document json output format.
+        '''The materials will be converted into json in the following
+        format:
+                `
+        '''
+        if (not self.materialsData):
+            return 'Error: Materials not yet generated.'
+
+        # Create a dictionary to hold the data to be converted
+        # Start by adding metadata (ship name, build name and the link used
+        # to generate the data).
+        self.dataObject: Dict[str, str | int | Dict[str, int] | bool] = {
+            'shipName': self.shipName,
+            'buildName': self.buildName or False,
+            'coriolisLink': self.link,
+            'materials': {}
+        }
+
+        self.materials: Dict[str, int] = {}
+
+        for material in self.materialsData:
+            self.materials.update(material.toDict())
+
+        self.dataObject['materials'] = self.materials
+        print(self.dataObject)
+
+        return json.dumps(self.dataObject)
