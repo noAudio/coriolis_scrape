@@ -33,3 +33,11 @@ class TestListBuilder(IsolatedAsyncioTestCase):
         self.assertTrue(self.listBuilder.materialsData)
         self.assertEqual(type(self.listBuilder.materialsData[0]), Material)
         self.assertEqual(len(self.listBuilder.materialsData), 80)
+
+    async def test_data_is_converted_to_json(self) -> None:
+        self.listBuilder: ListBuilder = ListBuilder(link=self.testLink)
+
+        await self.listBuilder.generateData()
+        self.listBuilder.convertAllDataToMaterialObjects()
+        self.assertIsNotNone(self.listBuilder.toJson())
+        self.assertEqual(type(self.listBuilder.toJson()), str)
