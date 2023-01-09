@@ -81,10 +81,17 @@ class ListBuilder:
         self.convertData(data=self.specialMaterials)
 
     def toJson(self) -> str:
-        # TODO: Document json output format.
         '''The materials will be converted into json in the following
         format:
-                `
+                `'shipName': 'Alliance Chieftain',`
+                `'buildName': 'EasyChief',`
+                `'coriolisLink': 'https://s.orbis.zone/lgzu',`
+                `'materials': {`
+                    `'Iron': 20,`
+                    `'Classified Scan Databanks': 12,`
+                    `'Grid Resistors': 45,`
+                    `...`
+                `}`
         '''
         if (not self.materialsData):
             return 'Error: Materials not yet generated.'
@@ -105,6 +112,5 @@ class ListBuilder:
             self.materials.update(material.toDict())
 
         self.dataObject['materials'] = self.materials
-        print(self.dataObject)
 
         return json.dumps(self.dataObject)
