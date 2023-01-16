@@ -22,7 +22,11 @@ class CoriolisScraper:
 
     async def setupBrowser(self) -> None:
         # TODO: Go back to headless mode
-        self.browser = await launch()
+        self.browser = await launch(
+            handleSIGINT=False,
+            handleSIGTERM=False,
+            handleSIGHUP=False
+        )
         self.page = await self.browser.newPage()
 
     async def closeBrowser(self) -> None:

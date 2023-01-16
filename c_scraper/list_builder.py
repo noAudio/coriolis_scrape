@@ -94,7 +94,7 @@ class ListBuilder:
                 `}`
         '''
         if (not self.materialsData):
-            return 'Error: Materials not yet generated.'
+            return 'Error: Unable to generate materials, please reload.'
 
         # Create a dictionary to hold the data to be converted
         # Start by adding metadata (ship name, build name and the link used
