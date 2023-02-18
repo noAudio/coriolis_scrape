@@ -46,12 +46,13 @@ class ListBuilder:
         self.generalMaterials = self.splitData
 
     def convertData(self, data: List[str]) -> None:
+        # TODO: Find bug that's causing unintended increments
         # Convert to Material object and append to list
         for item in data:
             item = item.split(': ')
             self.newMaterial: Material = Material(
                 name=item[0], amount=int(item[1]))
-            self.currentAmount: int
+            self.currentAmount: int = 0
             self.duplicateIndex: int = -1
             # Check if the material is already added and if present then
             # increase its amount. Otherwise append the new material.
@@ -77,6 +78,7 @@ class ListBuilder:
         `Material` objects.
         '''
         self.cleanData()
+        self.materialsData = []
         self.convertData(data=self.generalMaterials)
         self.convertData(data=self.specialMaterials)
 
