@@ -1,10 +1,13 @@
 import asyncio
 
 from flask import Flask, render_template
+from flask_cors import CORS
 from c_scraper.list_builder import ListBuilder
 
 loop = asyncio.get_event_loop()
 app: Flask = Flask(__name__)
+# TODO: Remove on prod
+CORS(app)
 
 
 async def generateMaterials(coriolisLink: str) -> str:
@@ -21,7 +24,8 @@ async def generateMaterials(coriolisLink: str) -> str:
 def index():
     '''This route will return the home page of the app.
     '''
-    return 'render_template("index.html")'
+# TODO: Flutter project output html gets loaded here
+    return render_template("index.html")
 
 
 @app.route('/generate/<coriolisLink>')
